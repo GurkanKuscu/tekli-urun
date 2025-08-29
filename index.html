@@ -1,0 +1,795 @@
+<!-- Hedef sayfalara (tek-kategori ve cok-kategorili) eklenmesi gereken geri düğmesi kodu -->
+<button class="back-button" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Geri Dön
+</button>
+
+<script>
+function goBack() {
+    window.location.href = "https://gurkankuscu.github.io/ecommerce_calculator/";
+}
+</script><!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hunca Satış ve Komisyon Hesaplama</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#ea580c',
+                        accent: '#16a34a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-center mb-12 text-gray-800 bg-white rounded-2xl shadow-lg py-6">
+            Tek Kategorili Ürün Hesaplama Sistemi 
+        </h1>
+        
+        <div class="space-y-8">
+            <!-- Ürün Seçim Bölümü -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
+                <h2 class="text-2xl font-bold mb-6 text-blue-800 flex items-center">
+                    🛒️ Ürün Seçimi
+                </h2>
+                <div class="space-y-6">
+                    <!-- Marka ve Kategori yan yana -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Marka Seçin</label>
+                            <select 
+                                id="brandSelect"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white"
+                            >
+                                <option value="">Marka Seçiniz</option>
+                                <!-- Markalar JavaScript ile doldurulacak -->
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Kategori Seçin</label>
+                            <select 
+                                id="categorySelect"
+                                disabled
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200 bg-gray-50 hover:bg-white"
+                            >
+                                <option value="">Kategori Seçiniz</option>
+                                <!-- Kategoriler JavaScript ile doldurulacak -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ürün seçimi - Marka ve Kategorinin altında -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Ürün Seçin</label>
+                        <select 
+                            id="productSelect"
+                            disabled
+                            class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200 bg-gray-50 hover:bg-white"
+                        >
+                            <option value="">Ürün Seçiniz</option>
+                            <!-- Ürünler JavaScript ile doldurulacak -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Sol Panel - Ürün ve Alış Bilgileri -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 border border-orange-100">
+                    <h2 class="text-2xl font-bold mb-6 text-orange-800 flex items-center">
+                        📦 Alış Bilgileri
+                    </h2>
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Alış Fiyatı (TL)</label>
+                                <input 
+                                    type="number" 
+                                    id="purchasePrice"
+                                    readonly
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-700 font-bold text-lg"
+                                    placeholder="Otomatik gelecek"
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Adet</label>
+                                <input 
+                                    type="number" 
+                                    id="quantity"
+                                    value="1"
+                                    min="1"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Toplam Alış Fiyatı (KDV Dahil)</label>
+                            <input 
+                                type="number" 
+                                id="totalWithVAT"
+                                readonly
+                                class="w-full p-4 border-2 border-blue-200 rounded-xl bg-blue-50 text-blue-800 font-bold text-xl"
+                            />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200">
+                                <label class="block text-sm font-bold text-orange-700 mb-3">🏭 Hunca Hak Ediş</label>
+                                <div class="text-xl font-bold text-orange-800 mb-2" id="totalHuncaProfit">₺0.00</div>
+                                <div class="text-xs text-gray-600 mb-3"><span id="huncaProfit">₺0.00</span> × <span id="quantityDisplay">1</span> adet</div>
+                                <div class="border-t border-orange-200 pt-3">
+                                    <div class="text-orange-700 font-semibold">KDV Dahil: <span id="totalHuncaProfitWithVAT">₺0.00</span></div>
+                                    <div class="text-xs text-gray-500"><span id="huncaProfitWithVAT">₺0.00</span> × <span id="quantityDisplay2">1</span> adet</div>
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border-2 border-red-200">
+                                <label class="block text-sm font-bold text-red-700 mb-3">🔴 Kırmızı Beyaz Hak Ediş</label>
+                                <div class="text-xl font-bold text-red-800 mb-2" id="totalRedWhiteProfit">₺0.00</div>
+                                <div class="text-xs text-gray-600 mb-3"><span id="redWhiteProfit">₺0.00</span> × <span id="quantityDisplay3">1</span> adet</div>
+                                <div class="border-t border-red-200 pt-3">
+                                    <div class="text-red-700 font-semibold">KDV Dahil: <span id="totalRedWhiteProfitWithVAT">₺0.00</span></div>
+                                    <div class="text-xs text-gray-500"><span id="redWhiteProfitWithVAT">₺0.00</span> × <span id="quantityDisplay4">1</span> adet</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sağ Panel - Satış ve Komisyon Bilgileri -->
+                <div class="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
+                    <h2 class="text-2xl font-bold mb-6 text-green-800 flex items-center">
+                        💰 Satış ve Komisyon Bilgileri
+                    </h2>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Satış Fiyatı (KDV Dahil)</label>
+                            <input 
+                                type="number" 
+                                id="salesPrice"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
+                                placeholder="Manuel giriş"
+                            />
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Komisyon Oranı (%)</label>
+                                <input 
+                                    type="number" 
+                                    id="commissionRate"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
+                                    placeholder="Manuel giriş"
+                                    step="0.1"
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Kargo Türü</label>
+                                <select 
+                                    id="cargoType"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                >
+                                    <option value="PTT-TEX">PTT-TEX</option>
+                                    <option value="Özel Kargo">Özel Kargo Fiyatı</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Reklam Oranı (%)</label>
+                                <input 
+                                    type="number" 
+                                    id="advertisementRate"
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                    placeholder="Manuel giriş"
+                                    step="0.1"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-200">
+                                <label class="block text-sm font-bold text-green-700 mb-2">💳 Komisyon Tutarı</label>
+                                <div class="text-lg font-bold text-green-800" id="commissionAmount">₺0.00</div>
+                                <div class="text-xs text-gray-500 mt-1">KDV Dahil</div>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-200">
+                                <label class="block text-sm font-bold text-blue-700 mb-2">
+                                    🚚 Kargo Tutarı- <span id="cargoTypeLabel">PTT-TEX</span>
+                                </label>
+                                <div id="standardCargo">
+                                    <div class="text-lg font-bold text-blue-800" id="cargoPrice">₺0.00</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        KDV Dahil
+                                    </div>
+                                </div>
+                                <div id="customCargo" class="hidden">
+                                    <input 
+                                        type="number" 
+                                        id="customCargoPrice"
+                                        class="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                        placeholder="Kargo ücreti girin"
+                                    />
+                                </div>
+                            </div>
+                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-200">
+                                <label class="block text-sm font-bold text-purple-700 mb-2">📢 Reklam Tutarı</label>
+                                <div class="text-lg font-bold text-purple-800" id="advertisementAmount">₺0.00</div>
+                                <div class="text-xs text-gray-50 mt-1">KDV Dahil</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kar Oranları ve Tutarları -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    📊 Kar Oranları ve Tutarları
+                </h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl border-2 border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">📈</div>
+                            <h3 class="font-bold text-xl mb-4 text-emerald-800">Net Kar<br />Oranı</h3>
+                            <div class="text-4xl font-bold text-emerald-700 mb-2" id="netProfitRate">
+                                0.00%
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar / Satış Fiyatı</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-sky-50 to-sky-100 p-8 rounded-2xl border-2 border-sky-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💵</div>
+                            <h3 class="font-bold text-xl mb-4 text-sky-800">Net Kar<br />Tutarı</h3>
+                            <div class="text-4xl font-bold text-sky-700 mb-2" id="netProfit">
+                                ₺0.00
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Satış - Komisyon - Kargo - Reklam - Alış Fiyatı (KDV Dahil)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-violet-50 to-violet-100 p-8 rounded-2xl border-2 border-violet-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🎯</div>
+                            <h3 class="font-bold text-xl mb-4 text-violet-800">KB Hak Ediş Düşülmüş</h3>
+                            <div class="text-4xl font-bold text-violet-700 mb-2" id="finalProfit">
+                                ₺0.00
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar - Kırmızı Beyaz Hak Ediş (KDV Dahil)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yeni Eklenen Kar Paylaşımı Bölümü -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    🤝 Kar Paylaşımı
+                </h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-8 rounded-2xl border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">📊</div>
+                            <h3 class="font-bold text-xl mb-4 text-amber-800">Paylaşılacak Kar<br />(%)</h3>
+                            <div class="text-4xl font-bold text-amber-700 mb-2" id="sharedProfitRate">
+                                0.00%
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Kar / Satış Fiyatı</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-8 rounded-2xl border-2 border-cyan-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">💰</div>
+                            <h3 class="font-bold text-xl mb-4 text-cyan-800">Paylaşılacak Kar<br />(TL)</h3>
+                            <div class="text-4xl font-bold text-cyan-700 mb-2" id="sharedProfit">
+                                ₺0.00
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">KB Hak Ediş Düşülmüş ile aynı</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-rose-50 to-rose-100 p-8 rounded-2xl border-2 border-rose-200 shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🏭</div>
+                            <h3 class="font-bold text-xl mb-4 text-rose-800">Hunca Kar<br />Hak Ediş</h3>
+                            <div class="text-4xl font-bold text-rose-700 mb-2" id="huncaProfitShare">
+                                ₺0.00
+                            </div>
+                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Karın Yarısı</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seçilen Ürün Özeti -->
+            <div id="productSummary" class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 hidden">
+                <h3 class="font-bold text-2xl mb-6 text-gray-800 flex items-center">
+                    🏷️ Seçilen Ürün Özeti
+                </h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <p class="text-sm font-semibold text-gray-600 mb-1">Ürün</p>
+                            <p class="text-lg font-bold text-gray-800" id="productName"></p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm font-semibold text-gray-600 mb-1">SAP Kodu</p>
+                                <p class="font-bold text-gray-800" id="productSap"></p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm font-semibold text-gray-600 mb-1">Marka</p>
+                                <p class="font-bold text-gray-800" id="productBrand"></p>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl">
+                            <p class="text-sm font-semibold text-gray-600 mb-1">Kategori</p>
+                            <p class="font-bold text-gray-800" id="productCategory"></p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200 text-center">
+                            <span class="text-gray-600 font-semibold block mb-2">Alış Fiyatı</span>
+                            <div class="text-2xl font-bold text-orange-700" id="summaryPurchasePrice">₺0.00</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 text-center">
+                            <span class="text-gray-600 font-semibold block mb-2">Adet</span>
+                            <div class="text-2xl font-bold text-blue-700" id="summaryQuantity">1</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-200 text-center">
+                            <span class="text-gray-600 font-semibold block mb-2">KDV Dahil Toplam</span>
+                            <div class="text-2xl font-bold text-green-700" id="summaryTotalWithVAT">₺0.00</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-200 text-center">
+                            <span class="text-gray-600 font-semibold block mb-2">Satış Fiyatı</span>
+                            <div class="text-2xl font-bold text-purple-700" id="summarySalesPrice">₺0.00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <button id="resetButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-xl transition-all duration-200">
+                        Sıfırla
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ürün verilerini TXT formatından parse etme
+        const productDataText = `SAP	ÜRÜN ADI	MARKA	KATEGORİ	HUNCA+KM SATIŞ FİYATI (TL)
+900004274	BLACK MAGIC KUTU KOFRE (M) EDT+DEO R23#	BLACK MAGIC	KOFRE	₺155,00
+401500227	BLACK MAGIC DEO (M) 150ML R23#	BLACK MAGIC	DEODORANT	₺42,50
+900003788	CALDION KUTU KOFRE (M) 50EDT+DEO#	CALDION	KOFRE	₺126,50
+900003789	CALDION KUTU KOFRE (W) 50EDT+DEO#	CALDION	KOFRE	₺126,50
+900003792	CALDION NIGHT KUTU KOFRE (M) EDT+DEO#	CALDION	KOFRE	₺164,50
+900003793	CALDION NIGHT KUTU KOFRE (W) EDT+DEO#	CALDION	KOFRE	₺164,50
+900003944	CALDION KOFRE (W)EDT 100ML+DEO R09 PEN#8	CALDION	KOFRE	₺164,50
+900003945	CALDION KOFRE (M)EDT 100ML+DEO R09 PEN#	CALDION	KOFRE	₺164,50
+400000151	CALDION EDT (M) 100ML#	CALDION	EDT	₺126,00
+400500186	CALDION EDT (W) 100ML#	CALDION	EDT	₺126,00
+401500100	CALDION DEO (M) 150ML#	CALDION	DEODORANT	₺42,50
+401500101	CALDION NIGHT DEO (M) 150ML#	CALDION	DEODORANT	₺42,50
+402000265	CALDION DEO (W) 150ML#	CALDION	DEODORANT	₺42,50
+402000266	CALDION NIGHT DEO (W) 150ML#	CALDION	DEODORANT	₺42,50
+402700200	CALDION ROLLON (M) 50ML R23#	CALDION	ROLL-ON	₺26,00
+402700201	CALDION ROLLON (W) 50ML R23#	CALDION	ROLL-ON	₺26,00
+900003805	CARMINELLA KUTU KOFRE (W) EDT+DEO#	CARMINELLA	KOFRE	₺181,50
+900003910	CARMINELLA LOVE KOFRE(W)EDT+DEO#	CARMINELLA	KOFRE	₺181,50
+400500205	CARMINELLA EDT (W) 100ML#	CARMINELLA	EDT	₺138,50
+402000275	CARMINELLA DEO (W) 150ML#	CARMINELLA	DEODORANT	₺42,50
+402000410	CARMINELLA LOVE DEO(W)150ML#	CARMINELLA	DEODORANT	₺42,50
+900003947	EQUAL KOFRE MEN EDT 75 ML+DEO PEN R11#	EQUAL	KOFRE	₺160,00
+900003948	EQUAL KOFRE WOMEN EDT 75 ML+DEO PEN R11#	EQUAL	KOFRE	₺160,00
+401500108	EQUAL DEO (M) 150ML#	EQUAL	DEODORANT	₺42,50
+402000272	EQUAL DEO (W) 150ML#	EQUAL	DEODORANT	₺42,50
+402700207	EQUAL ROLLON (M) 50ML R23#	EQUAL	ROLL-ON	₺26,00
+402700208	EQUAL ROLLON (W) 50ML R23#	EQUAL	ROLL-ON	₺26,00
+900004190	EXTORY OCRA KOFRE MEN EDT+DEO R22#	EXTORY	KOFRE	₺180,50
+900004191	EXTORY COBALT KOFRE MEN EDT+DEO R22#	EXTORY	KOFRE	₺180,50
+410800400	HUNCA CARE DEFNE&SARIMSAK SAMPUAN 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410800401	HUNCA CARE ZEYTIN&ARGAN SAMPUAN 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410800402	HUNCA CARE BITTIM&C.OTU SAMPUAN 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410801403	H.CARE BITK.KOMPLEKS SAMPUAN 675ML R21#	HUNCA CARE	ŞAMPUAN	₺45,00
+410800773	HUNCA CARE BIBERIYE/YULAF SAMPUAN 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410801089	HUNCA CARE ISIRGAN OTU SAMPUANI 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410801372	HUNCA CARE KERATIN SAMPUAN 675ML#	HUNCA CARE	ŞAMPUAN	₺45,00
+410800404	HUNCA CARE ZEYTIN&ARGAN SAC KREMI 400ML#	HUNCA CARE	SAÇ KREMİ	₺41,00
+410800405	HUNCA CARE DEFNE&SARIM. SAC KREMI 400ML#	HUNCA CARE	SAÇ KREMİ	₺41,00
+410800407	HUNCA CARE AT KESTANESI 500ML#	HUNCA CARE	MASAJ KREMİ	₺76,25
+900004180	IVRINDI KUTU KOFRE (W) EDT+DEO R22#	IVRINDI	KOFRE	₺160,00
+400500333	IVRINDI EDT (W) 55ML R22#	IVRINDI	EDT	₺116,50
+402000269	IVRINDI DEO (W) 150ML#	IVRINDI	DEODORANT	₺42,50
+900004285	JAGLER CLASSIC KOFRE (W) EDT+DEO L24#	JAGLER	KOFRE	₺181,25
+900003826	JAGLER KOFRE (M) EDT(50ML)+DEO(100ML)#	JAGLER	KOFRE	₺143,75
+900004253	JAGLER HERO KUTU KOFRE (M) 90EDT+DEO#	JAGLER	KOFRE	₺194,00
+900004255	JAGLER ENERGY KUTU KOFRE (M) 90EDT+DEO#	JAGLER	KOFRE	₺194,00
+900004256	JAGLER EXTREME KOFRE (M) 90EDT+DEO#	JAGLER	KOFRE	₺194,00
+900004257	JAGLER GOLD KUTU KOFRE (W) EDT+DEO#	JAGLER	KOFRE	₺181,25
+900004258	JAGLER PEARL KUTU KOFRE (W) EDT+DEO#	JAGLER	KOFRE	₺181,25
+900004264	JAGLER CLAS. KOFRE (M) EDT90+DEO150 R23#	JAGLER	KOFRE	₺194,00
+900004265	JAGLER SPORT KOFRE (M) EDT90+DEO150 R23#	JAGLER	KOFRE	₺194,00
+900004266	JAGLER STORM KOFRE (M) EDT90+DEO150 R23#	JAGLER	KOFRE	₺194,00
+900004267	JAGLER BLACK KOFRE (M) EDT90+DEO150 R23#	JAGLER	KOFRE	₺194,00
+400000238	JAGLER SPORT EDT (M) 90ML R24#	JAGLER	EDT	₺142,50
+400000156	JAGLER STORM EDT (M) 90ML#	JAGLER	EDT	₺142,50
+400000157	JAGLER BLACK EDT (M) 90ML#	JAGLER	EDT	₺142,50
+400000237	JAGLER KLASIK EDT (M) 90ML R24#	JAGLER	EDT	₺142,50
+400500367	JAGLER CLASSIC EDT (W) 60ML R24#	JAGLER	EDT	₺135,00
+400000180	JAGLER EDT (M) 50ML K.KUTU L23#	JAGLER	EDT	₺101,25
+400000234	JAGLER HERO EDT (M) 90ML#	JAGLER	EDT	₺142,50
+400000235	JAGLER ENERGY EDT (M) 90ML#	JAGLER	EDT	₺142,50
+400000236	JAGLER EXTREME EDT (M) 90ML#	JAGLER	EDT	₺142,50
+400500361	JAGLER PEARL EDT (W) 60ML#	JAGLER	EDT	₺135,00
+400500362	JAGLER GOLD EDT (W) 60ML#	JAGLER	EDT	₺135,00
+401500216	JAGLER HERO DEO (M) 150ML#	JAGLER	DEODORANT	₺42,50
+401500217	JAGLER ENERGY DEO (M) 150ML#	JAGLER	DEODORANT	₺42,50
+401500218	JAGLER EXTREME DEO (M) 150ML#	JAGLER	DEODORANT	₺42,50
+402000613	JAGLER GOLD DEO (W) 150ML#	JAGLER	DEODORANT	₺42,50
+402000614	JAGLER PEARL DEO (W) 150ML#	JAGLER	DEODORANT	₺42,50
+401500219	JAGLER CLAS.DEO (M) 150ML R23#	JAGLER	DEODORANT	₺42,50
+401500220	JAGLER SPORT DEO (M) 150ML R23#	JAGLER	DEODORANT	₺42,50
+401500221	JAGLER STORM DEO (M) 150ML R23#	JAGLER	DEODORANT	₺42,50
+401500222	JAGLER BLACK DEO (M) 150ML R23#	JAGLER	DEODORANT	₺42,50
+402000621	JAGLER CLASSIC DEO (W) 150ML L24#	JAGLER	DEODORANT	₺42,50
+401600053	JAGLER TRAS KOPUGU 200ML L24#	JAGLER	TRAŞ KÖPÜĞÜ	₺31,00
+405500171	JAGLER SPORT TIRAS KOLONYASI 200ML L24#	JAGLER	KOLONYA	₺77,50
+405500172	JAGLER E.COOL TIRAS KOLONYASI 200ML L24#	JAGLER	KOLONYA	₺77,50
+405500173	JAGLER CLAS.TIRAS KOLONYASI 200ML L24#	JAGLER	KOLONYA	₺77,50
+410801588	JAGLER CLASSIC SAC SPRAYI 400ML L24#	JAGLER	SAC SPREYI	₺64,00
+410801589	JAGLER KERATIN SAC SPRAYI 400ML L24#	JAGLER	SAC SPREYI	₺64,00
+410801590	JAGLER WAX DOGAL GOR.150ML(M) L24#	JAGLER	WAX	₺36,00
+410801591	JAGLER WAX PARLAK GOR. 150ML(M) L24#	JAGLER	WAX	₺36,00
+410801592	JAGLER WAX GUCLU TUTUS 150ML(M) L24#	JAGLER	WAX	₺36,00
+402700244	JAGLER KLASIK ROLLON (M) 50ML R24#	JAGLER	ROLL-ON	₺26,00
+402700245	JAGLER SPORT ROLLON (M) 50ML R24#	JAGLER	ROLL-ON	₺26,00
+402700246	JAGLER STORM ROLLON (M) 50ML R24#	JAGLER	ROLL-ON	₺26,00
+402700247	JAGLER BLACK ROLLON (M) 50ML R24#	JAGLER	ROLL-ON	₺26,00
+402700257	JAGLER ROLLON (W) 50ML L24#	JAGLER	ROLL-ON	₺26,00
+402700235	JAGLER HERO ROLLON (M) 50ML#	JAGLER	ROLL-ON	₺26,00
+402700236	JAGLER ENERGY ROLLON (M) 50ML#	JAGLER	ROLL-ON	₺26,00
+402700237	JAGLER EXTREME ROLLON (M) 50ML#	JAGLER	ROLL-ON	₺26,00
+402700238	JAGLER GOLD ROLLON (W) 50ML#	JAGLER	ROLL-ON	₺26,00
+402700239	JAGLER PEARL ROLLON (W) 50ML#	JAGLER	ROLL-ON	₺26,00
+900004233	SHE FUN KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+900004234	SHE SEXY KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+900004235	SHE COOL KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+900004236	SHE LOVE KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+900004231	SHE CLUBBER KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+900004232	SHE ANGEL KUTU KOFRE (W) EDT+DEO L23#	SHE	KOFRE	₺145,00
+402000592	SHE CLUBBER DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402000593	SHE ANGEL DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402000594	SHE FUN DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402000595	SHE SEXY DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402000596	SHE COOL DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402000597	SHE LOVE DEO (W) 150ML L23#	SHE	DEODORANT	₺42,50
+402700209	SHE SEXY ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+402700210	SHE FUN ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+402700211	SHE COOL ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+402700212	SHE LOVE ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+402700213	SHE CLUBBER ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+402700216	SHE ANGEL ROLLON (W) 50ML R23#	SHE	ROLL-ON	₺26,00
+900004181	VIVA CAPPIO KUTU KOFRE (W) EDT+DEO R22#	VIVA	KOFRE	₺170,50
+400500334	VIVA CAPPIO EDT (W) 60ML R22#	VIVA	EDT	₺132,00
+402000270	VIVA CAPPIO DEO (W) 150ML#	VIVA	DEODORANT	₺42,50
+400500340	SHE CLUBBER EDT (W) 50ML L23#	SHE	EDT	₺98,00
+400500341	SHE ANGEL EDT (W) 50ML L23#	SHE	EDT	₺98,00
+400500342	SHE FUN EDT (W) 50ML L23#	SHE	EDT	₺98,00
+400500343	SHE SEXY EDT (W) 50ML L23#	SHE	EDT	₺98,00
+400500344	SHE COOL EDT (W) 50ML L23#	SHE	EDT	₺98,00
+400500345	SHE LOVE EDT (W) 50ML L23#	SHE	EDT	₺98,00`;
+
+        // Veriyi parse etme
+        const productLines = productDataText.split('\n').slice(1); // İlk satırı (başlık) atla
+        const productList = {};
+        
+        productLines.forEach(line => {
+            const columns = line.split('\t');
+            if (columns.length >= 5) {
+                const sap = columns[0].trim();
+                const name = columns[1].trim();
+                const brand = columns[2].trim();
+                const category = columns[3].trim();
+                
+                // Fiyatı parse etme (TL işaretini ve virgülü kaldırma)
+                let priceText = columns[4].trim();
+                priceText = priceText.replace('₺', '').replace(',', '.');
+                const price = parseFloat(priceText);
+                
+                if (!isNaN(price)) {
+                    productList[sap] = {
+                        name: name,
+                        brand: brand,
+                        category: category,
+                        price: price
+                    };
+                }
+            }
+        });
+        
+        // Markaları al
+        const brands = [...new Set(Object.values(productList).map(p => p.brand))].sort();
+        
+        // DOM elementleri
+        const brandSelect = document.getElementById('brandSelect');
+        const categorySelect = document.getElementById('categorySelect');
+        const productSelect = document.getElementById('productSelect');
+        const purchasePriceInput = document.getElementById('purchasePrice');
+        const quantityInput = document.getElementById('quantity');
+        const totalWithVATInput = document.getElementById('totalWithVAT');
+        const salesPriceInput = document.getElementById('salesPrice');
+        const commissionRateInput = document.getElementById('commissionRate');
+        const cargoTypeSelect = document.getElementById('cargoType');
+        const customCargoPriceInput = document.getElementById('customCargoPrice');
+        const advertisementRateInput = document.getElementById('advertisementRate');
+        const resetButton = document.getElementById('resetButton');
+        
+        // Marka değiştiğinde
+        brandSelect.addEventListener('change', function() {
+            const selectedBrand = this.value;
+            categorySelect.disabled = !selectedBrand;
+            productSelect.disabled = true;
+            
+            // Kategorileri doldur
+            categorySelect.innerHTML = '<option value="">Kategori Seçiniz</option>';
+            if (selectedBrand) {
+                const categories = [...new Set(
+                    Object.values(productList)
+                        .filter(p => p.brand === selectedBrand)
+                        .map(p => p.category)
+                )].sort();
+                
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category;
+                    option.textContent = category;
+                    categorySelect.appendChild(option);
+                });
+            }
+            
+            resetProductSelection();
+        });
+        
+        // Kategori değiştiğinde
+        categorySelect.addEventListener('change', function() {
+            const selectedBrand = brandSelect.value;
+            const selectedCategory = this.value;
+            productSelect.disabled = !selectedCategory;
+            
+            // Ürünleri doldur
+            productSelect.innerHTML = '<option value="">Ürün Seçiniz</option>';
+            if (selectedBrand && selectedCategory) {
+                const filteredProducts = Object.entries(productList)
+                    .filter(([sap, product]) => 
+                        product.brand === selectedBrand && 
+                        product.category === selectedCategory
+                    );
+                
+                filteredProducts.forEach(([sap, product]) => {
+                    const option = document.createElement('option');
+                    option.value = sap;
+                    option.textContent = `${product.name} - ₺${product.price.toFixed(2)}`;
+                    productSelect.appendChild(option);
+                });
+            }
+            
+            resetProductSelection();
+        });
+        
+        // Ürün seçimi değiştiğinde
+        productSelect.addEventListener('change', function() {
+            updateProductDetails();
+        });
+        
+        // Miktar değiştiğinde
+        quantityInput.addEventListener('input', function() {
+            updateCalculations();
+            updateQuantityDisplays();
+        });
+        
+        // Satış fiyatı değiştiğinde
+        salesPriceInput.addEventListener('input', function() {
+            updateCalculations();
+        });
+        
+        // Komisyon oranı değiştiğinde
+        commissionRateInput.addEventListener('input', function() {
+            updateCalculations();
+        });
+        
+        // Kargo türü değiştiğinde
+        cargoTypeSelect.addEventListener('change', function() {
+            document.getElementById('cargoTypeLabel').textContent = this.value;
+            const isCustomCargo = this.value === 'Özel Kargo';
+            document.getElementById('standardCargo').classList.toggle('hidden', isCustomCargo);
+            document.getElementById('customCargo').classList.toggle('hidden', !isCustomCargo);
+            updateCalculations();
+        });
+        
+        // Özel kargo fiyatı değiştiğinde
+        customCargoPriceInput.addEventListener('input', function() {
+            updateCalculations();
+        });
+        
+        // Reklam oranı değiştiğinde
+        advertisementRateInput.addEventListener('input', function() {
+            updateCalculations();
+        });
+        
+        // Sıfırlama butonu
+        resetButton.addEventListener('click', function() {
+            brandSelect.value = "";
+            categorySelect.innerHTML = '<option value="">Kategori Seçiniz</option>';
+            categorySelect.disabled = true;
+            productSelect.innerHTML = '<option value="">Ürün Seçiniz</option>';
+            productSelect.disabled = true;
+            purchasePriceInput.value = "";
+            quantityInput.value = "1";
+            salesPriceInput.value = "";
+            commissionRateInput.value = "";
+            advertisementRateInput.value = "";
+            cargoTypeSelect.value = "PTT-TEX";
+            document.getElementById('cargoTypeLabel').textContent = "PTT-TEX";
+            document.getElementById('standardCargo').classList.remove('hidden');
+            document.getElementById('customCargo').classList.add('hidden');
+            customCargoPriceInput.value = "";
+            
+            document.getElementById('productSummary').classList.add('hidden');
+            
+            updateCalculations();
+            updateQuantityDisplays();
+        });
+        
+        // Yardımcı fonksiyonlar
+        function resetProductSelection() {
+            purchasePriceInput.value = '';
+            totalWithVATInput.value = '';
+            document.getElementById('productSummary').classList.add('hidden');
+            updateCalculations();
+        }
+        
+        function updateProductDetails() {
+            const selectedProduct = productSelect.value;
+            if (selectedProduct && productList[selectedProduct]) {
+                const product = productList[selectedProduct];
+                purchasePriceInput.value = product.price;
+                
+                // Ürün özetini güncelle
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productSap').textContent = selectedProduct;
+                document.getElementById('productBrand').textContent = product.brand;
+                document.getElementById('productCategory').textContent = product.category;
+                document.getElementById('productSummary').classList.remove('hidden');
+                
+                updateCalculations();
+            } else {
+                resetProductSelection();
+            }
+        }
+        
+        function updateQuantityDisplays() {
+            const quantity = parseInt(quantityInput.value) || 1;
+            const quantityDisplays = document.querySelectorAll('[id^="quantityDisplay"]');
+            quantityDisplays.forEach(el => {
+                el.textContent = quantity;
+            });
+            document.getElementById('summaryQuantity').textContent = quantity;
+        }
+        
+        function updateCalculations() {
+            const purchasePrice = parseFloat(purchasePriceInput.value) || 0;
+            const quantity = parseInt(quantityInput.value) || 1;
+            const salesPrice = parseFloat(salesPriceInput.value) || 0;
+            const commissionRate = parseFloat(commissionRateInput.value) || 0;
+            const advertisementRate = parseFloat(advertisementRateInput.value) || 0;
+            
+            // Temel hesaplamalar
+            const totalSpecialPrice = purchasePrice * quantity;
+            const totalWithVAT = totalSpecialPrice * 1.20;
+            
+            // Hunca ve Kırmızı Beyaz kar hesaplamaları
+            const huncaProfit = purchasePrice * 0.1803;
+            const redWhiteProfit = purchasePrice * 0.0984;
+            const huncaProfitWithVAT = huncaProfit * 1.20;
+            const redWhiteProfitWithVAT = redWhiteProfit * 1.20;
+            const totalHuncaProfit = huncaProfit * quantity;
+            const totalRedWhiteProfit = redWhiteProfit * quantity;
+            const totalHuncaProfitWithVAT = huncaProfitWithVAT * quantity;
+            const totalRedWhiteProfitWithVAT = redWhiteProfitWithVAT * quantity;
+            
+            // Komisyon ve reklam hesaplamaları
+            const commissionAmount = (salesPrice * commissionRate) / 100;
+            const advertisementAmount = (salesPrice * advertisementRate) / 100;
+            
+            // Kargo hesaplaması
+            let cargoPrice = 0;
+            if (cargoTypeSelect.value === 'PTT-TEX' && salesPrice > 0) {
+                if (salesPrice >= 0 && salesPrice <= 149.99) {
+                    cargoPrice = 27.08 * 1.2; // KDV dahil
+                } else if (salesPrice >= 150 && salesPrice <= 299.99) {
+                    cargoPrice = 51.66 * 1.2; // KDV dahil
+                } else if (salesPrice >= 300) {
+                    cargoPrice = 66.66 * 1.2; // KDV dahil
+                }
+            } else if (cargoTypeSelect.value === 'Özel Kargo') {
+                cargoPrice = parseFloat(customCargoPriceInput.value) || 0;
+            }
+            
+            // Net kar hesaplamaları
+            const netProfit = salesPrice - commissionAmount - cargoPrice - advertisementAmount - totalWithVAT;
+            const netProfitRate = salesPrice ? (netProfit / salesPrice) * 100 : 0;
+            const finalProfit = netProfit - totalRedWhiteProfitWithVAT;
+            
+            // Yeni hesaplamalar: Paylaşılacak Kar ve Hunca Kar Hak Ediş
+            const sharedProfit = finalProfit; // Paylaşılacak Kar (TL)
+            const sharedProfitRate = salesPrice ? (sharedProfit / salesPrice) * 100 : 0; // Paylaşılacak Kar (%)
+            const huncaProfitShare = sharedProfit / 2; // Hunca Kar Hak Ediş (Paylaşılacak Karın yarısı)
+            
+            // Değerleri güncelle
+            totalWithVATInput.value = totalWithVAT.toFixed(2);
+            
+            document.getElementById('huncaProfit').textContent = `₺${huncaProfit.toFixed(2)}`;
+            document.getElementById('redWhiteProfit').textContent = `₺${redWhiteProfit.toFixed(2)}`;
+            document.getElementById('huncaProfitWithVAT').textContent = `₺${huncaProfitWithVAT.toFixed(2)}`;
+            document.getElementById('redWhiteProfitWithVAT').textContent = `₺${redWhiteProfitWithVAT.toFixed(2)}`;
+            document.getElementById('totalHuncaProfit').textContent = `₺${totalHuncaProfit.toFixed(2)}`;
+            document.getElementById('totalRedWhiteProfit').textContent = `₺${totalRedWhiteProfit.toFixed(2)}`;
+            document.getElementById('totalHuncaProfitWithVAT').textContent = `₺${totalHuncaProfitWithVAT.toFixed(2)}`;
+            document.getElementById('totalRedWhiteProfitWithVAT').textContent = `₺${totalRedWhiteProfitWithVAT.toFixed(2)}`;
+            
+            document.getElementById('commissionAmount').textContent = `₺${commissionAmount.toFixed(2)}`;
+            document.getElementById('cargoPrice').textContent = `₺${cargoPrice.toFixed(2)}`;
+            document.getElementById('advertisementAmount').textContent = `₺${advertisementAmount.toFixed(2)}`;
+            
+            document.getElementById('netProfitRate').textContent = `${netProfitRate.toFixed(2)}%`;
+            document.getElementById('netProfit').textContent = `₺${netProfit.toFixed(2)}`;
+            document.getElementById('finalProfit').textContent = `₺${finalProfit.toFixed(2)}`;
+            
+            // Yeni değerleri güncelle
+            document.getElementById('sharedProfitRate').textContent = `${sharedProfitRate.toFixed(2)}%`;
+            document.getElementById('sharedProfit').textContent = `₺${sharedProfit.toFixed(2)}`;
+            document.getElementById('huncaProfitShare').textContent = `₺${huncaProfitShare.toFixed(2)}`;
+            
+            // Özet bölümünü güncelle
+            document.getElementById('summaryPurchasePrice').textContent = `₺${purchasePrice.toFixed(2)}`;
+            document.getElementById('summaryTotalWithVAT').textContent = `₺${totalWithVAT.toFixed(2)}`;
+            document.getElementById('summarySalesPrice').textContent = `₺${salesPrice.toFixed(2)}`;
+        }
+        
+        // Sayfa yüklendiğinde marka seçeneklerini doldur
+        window.addEventListener('DOMContentLoaded', function() {
+            brands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+            
+            updateQuantityDisplays();
+        });
+    </script>
+</body>
+</html>
