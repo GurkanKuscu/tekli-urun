@@ -1,16 +1,4 @@
-<!-- Hedef sayfalara (tek-kategori ve cok-kategorili) eklenmesi gereken geri düğmesi kodu -->
-<button class="back-button" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-    </svg>
-    Geri Dön
-</button>
-
-<script>
-function goBack() {
-    window.location.href = "https://gurkankuscu.github.io/e-ticaret-urunleri-fiyatlandirma-ve-bilgi-sistemi-1.0-2025/";
-}
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -39,346 +27,414 @@ function goBack() {
         input[type="number"] {
             -moz-appearance: textfield;
         }
+        
+        /* Geri butonu stilleri */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .back-button:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Özel kart stilleri */
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Özel gradient arka plan */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Progress bar animasyonu */
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-    <div class="max-w-7xl mx-auto">
-        <h1 class="text-4xl font-bold text-center mb-12 text-gray-800 bg-white rounded-2xl shadow-lg py-6">
-            Tek Kategorili Ürün Hesaplama Sistemi 
-        </h1>
-        
-        <div class="space-y-8">
-            <!-- Ürün Seçim Bölümü -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
-                <h2 class="text-2xl font-bold mb-6 text-blue-800 flex items-center">
-                    🛒️ Ürün Seçimi
-                </h2>
-                <div class="space-y-6">
-                    <!-- Marka ve Kategori yan yana -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-3">Marka Seçin</label>
-                            <select 
-                                id="brandSelect"
-                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white"
-                            >
-                                <option value="">Marka Seçiniz</option>
-                                <!-- Markalar JavaScript ile doldurulacak -->
-                            </select>
-                        </div>
+    <!-- Geri Dön Butonu -->
+    <button class="back-button" onclick="goBack()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Geri Dön
+    </button>
 
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-3">Kategori Seçin</label>
-                            <select 
-                                id="categorySelect"
-                                disabled
-                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200 bg-gray-50 hover:bg-white"
-                            >
-                                <option value="">Kategori Seçiniz</option>
-                                <!-- Kategoriler JavaScript ile doldurulacak -->
-                            </select>
-                        </div>
+    <div class="max-w-7xl mx-auto">
+        <!-- Başlık Bölümü -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">E-Ticaret Ürün Karlılık Hesaplama Sistemi | 11.2025</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto"> 2025 Verileri Dikkate Alınarak Hesaplanmaktadır! | By Gurkan KUSCU
+        </div>
+        
+        <!-- Ürün Seçim Kartı -->
+        <div class="card bg-white rounded-2xl shadow-xl p-8 mb-8 border border-blue-100">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-blue-800 flex items-center">
+                    <span class="mr-3">🛒</span> Ürün Seçimi
+                </h2>
+                <div class="text-sm text-gray-500 bg-blue-50 px-3 py-1 rounded-full">
+                    <span id="selectionProgress">0/3</span> tamamlandı
+                </div>
+            </div>
+            
+            <div class="progress-bar mb-6">
+                <div id="progressFill" class="progress-fill bg-blue-500" style="width: 0%"></div>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- Marka ve Kategori yan yana -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Marka Seçin</label>
+                        <select 
+                            id="brandSelect"
+                            class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white"
+                        >
+                            <option value="">Marka Seçiniz</option>
+                            <!-- Markalar JavaScript ile doldurulacak -->
+                        </select>
                     </div>
 
-                    <!-- Ürün seçimi - Marka ve Kategorinin altında -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-3">Ürün Seçin</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Kategori Seçin</label>
                         <select 
-                            id="productSelect"
+                            id="categorySelect"
                             disabled
                             class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200 bg-gray-50 hover:bg-white"
                         >
-                            <option value="">Ürün Seçiniz</option>
-                            <!-- Ürünler JavaScript ile doldurulacak -->
+                            <option value="">Kategori Seçiniz</option>
+                            <!-- Kategoriler JavaScript ile doldurulacak -->
                         </select>
                     </div>
                 </div>
+
+                <!-- Ürün seçimi - Marka ve Kategorinin altında -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Ürün Seçin</label>
+                    <select 
+                        id="productSelect"
+                        disabled
+                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed transition-all duration-200 bg-gray-50 hover:bg-white"
+                    >
+                        <option value="">Ürün Seçiniz</option>
+                        <!-- Ürünler JavaScript ile doldurulacak -->
+                    </select>
+                </div>
             </div>
+        </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Sol Panel - Ürün ve Alış Bilgileri -->
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-orange-100">
-                    <h2 class="text-2xl font-bold mb-6 text-orange-800 flex items-center">
-                        📦 Alış Bilgileri
-                    </h2>
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Alış Fiyatı (TL)</label>
-                                <input 
-                                    type="number" 
-                                    id="purchasePrice"
-                                    readonly
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-700 font-bold text-lg"
-                                    placeholder="Otomatik gelecek"
-                                />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Adet</label>
-                                <input 
-                                    type="number" 
-                                    id="quantity"
-                                    value="1"
-                                    min="1"
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                                />
-                            </div>
-                        </div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Sol Panel - Alış Bilgileri -->
+            <div class="card bg-white rounded-2xl shadow-xl p-8 border border-orange-100">
+                <h2 class="text-2xl font-bold mb-6 text-orange-800 flex items-center">
+                    <span class="mr-3">📦</span> Alış Bilgileri
+                </h2>
+                <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-3">Toplam Alış Fiyatı (KDV Dahil)</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Alış Fiyatı (TL)</label>
                             <input 
                                 type="number" 
-                                id="totalWithVAT"
+                                id="purchasePrice"
                                 readonly
-                                class="w-full p-4 border-2 border-blue-200 rounded-xl bg-blue-50 text-blue-800 font-bold text-xl"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl bg-gray-50 text-gray-700 font-bold text-lg"
+                                placeholder="Otomatik gelecek"
                             />
                         </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Adet</label>
+                            <input 
+                                type="number" 
+                                id="quantity"
+                                value="1"
+                                min="1"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                            />
+                        </div>
+                    </div>
 
-                        <div class="grid grid-cols-2 gap-6">
-                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200">
-                                <label class="block text-sm font-bold text-orange-700 mb-3">🏭 Hunca Hak Ediş</label>
-                                <div class="text-xl font-bold text-orange-800 mb-2" id="totalHuncaProfit">₺0.00</div>
-                                <div class="text-xs text-gray-600 mb-3"><span id="huncaProfit">₺0.00</span> × <span id="quantityDisplay">1</span> adet</div>
-                                <div class="border-t border-orange-200 pt-3">
-                                    <div class="text-orange-700 font-semibold">KDV Dahil: <span id="totalHuncaProfitWithVAT">₺0.00</span></div>
-                                    <div class="text-xs text-gray-500"><span id="huncaProfitWithVAT">₺0.00</span> × <span id="quantityDisplay2">1</span> adet</div>
-                                </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Toplam Alış Fiyatı (KDV Dahil)</label>
+                        <input 
+                            type="number" 
+                            id="totalWithVAT"
+                            readonly
+                            class="w-full p-4 border-2 border-blue-200 rounded-xl bg-blue-50 text-blue-800 font-bold text-xl"
+                        />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200">
+                            <label class="block text-sm font-bold text-orange-700 mb-3">🏭 Hunca Hak Ediş</label>
+                            <div class="text-xl font-bold text-orange-800 mb-2" id="totalHuncaProfit">₺0.00</div>
+                            <div class="text-xs text-gray-600 mb-3"><span id="huncaProfit">₺0.00</span> × <span id="quantityDisplay">1</span> adet</div>
+                            <div class="border-t border-orange-200 pt-3">
+                                <div class="text-orange-700 font-semibold">KDV Dahil: <span id="totalHuncaProfitWithVAT">₺0.00</span></div>
+                                <div class="text-xs text-gray-500"><span id="huncaProfitWithVAT">₺0.00</span> × <span id="quantityDisplay2">1</span> adet</div>
                             </div>
-                            <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border-2 border-red-200">
-                                <label class="block text-sm font-bold text-red-700 mb-3">🔴 Kırmızı Beyaz Hak Ediş</label>
-                                <div class="text-xl font-bold text-red-800 mb-2" id="totalRedWhiteProfit">₺0.00</div>
-                                <div class="text-xs text-gray-600 mb-3"><span id="redWhiteProfit">₺0.00</span> × <span id="quantityDisplay3">1</span> adet</div>
-                                <div class="border-t border-red-200 pt-3">
-                                    <div class="text-red-700 font-semibold">KDV Dahil: <span id="totalRedWhiteProfitWithVAT">₺0.00</span></div>
-                                    <div class="text-xs text-gray-500"><span id="redWhiteProfitWithVAT">₺0.00</span> × <span id="quantityDisplay4">1</span> adet</div>
-                                </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border-2 border-red-200">
+                            <label class="block text-sm font-bold text-red-700 mb-3">🔴 Kırmızı Beyaz Hak Ediş</label>
+                            <div class="text-xl font-bold text-red-800 mb-2" id="totalRedWhiteProfit">₺0.00</div>
+                            <div class="text-xs text-gray-600 mb-3"><span id="redWhiteProfit">₺0.00</span> × <span id="quantityDisplay3">1</span> adet</div>
+                            <div class="border-t border-red-200 pt-3">
+                                <div class="text-red-700 font-semibold">KDV Dahil: <span id="totalRedWhiteProfitWithVAT">₺0.00</span></div>
+                                <div class="text-xs text-gray-500"><span id="redWhiteProfitWithVAT">₺0.00</span> × <span id="quantityDisplay4">1</span> adet</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Sağ Panel - Satış ve Komisyon Bilgileri -->
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-green-100">
-                    <h2 class="text-2xl font-bold mb-6 text-green-800 flex items-center">
-                        💰 Satış ve Komisyon Bilgileri
-                    </h2>
-                    <div class="space-y-6">
+            <!-- Sağ Panel - Satış ve Komisyon Bilgileri -->
+            <div class="card bg-white rounded-2xl shadow-xl p-8 border border-green-100">
+                <h2 class="text-2xl font-bold mb-6 text-green-800 flex items-center">
+                    <span class="mr-3">💰</span> Satış ve Komisyon Bilgileri
+                </h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-3">Satış Fiyatı (KDV Dahil)</label>
+                        <input 
+                            type="number" 
+                            id="salesPrice"
+                            class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
+                            placeholder="Manuel giriş"
+                        />
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-3">Satış Fiyatı (KDV Dahil)</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Komisyon Oranı (%)</label>
                             <input 
                                 type="number" 
-                                id="salesPrice"
+                                id="commissionRate"
                                 class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
                                 placeholder="Manuel giriş"
+                                step="0.1"
                             />
                         </div>
-
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Komisyon Oranı (%)</label>
-                                <input 
-                                    type="number" 
-                                    id="commissionRate"
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-500 focus:border-green-500 transition-all duration-200"
-                                    placeholder="Manuel giriş"
-                                    step="0.1"
-                                />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Kargo Türü</label>
-                                <select 
-                                    id="cargoType"
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                                >
-                                    <option value="PTT-TEX">PTT-TEX</option>
-                                    <option value="Özel Kargo">Özel Kargo Fiyatı</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Reklam Oranı (%)</label>
-                                <input 
-                                    type="number" 
-                                    id="advertisementRate"
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
-                                    placeholder="Manuel giriş"
-                                    step="0.1"
-                                />
-                            </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Kargo Türü</label>
+                            <select 
+                                id="cargoType"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                            >
+                                <option value="PTT-TEX">PTT-TEX</option>
+                                <option value="Özel Kargo">Özel Kargo Fiyatı</option>
+                            </select>
                         </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Reklam Oranı (%)</label>
+                            <input 
+                                type="number" 
+                                id="advertisementRate"
+                                class="w-full p-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                placeholder="Manuel giriş"
+                                step="0.1"
+                            />
+                        </div>
+                    </div>
 
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-200">
-                                <label class="block text-sm font-bold text-green-700 mb-2">💳 Komisyon Tutarı</label>
-                                <div class="text-lg font-bold text-green-800" id="commissionAmount">₺0.00</div>
-                                <div class="text-xs text-gray-500 mt-1">KDV Dahil</div>
-                            </div>
-                            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-200">
-                                <label class="block text-sm font-bold text-blue-700 mb-2">
-                                    🚚 Kargo Tutarı- <span id="cargoTypeLabel">PTT-TEX</span>
-                                </label>
-                                <div id="standardCargo">
-                                    <div class="text-lg font-bold text-blue-800" id="cargoPrice">₺0.00</div>
-                                    <div class="text-xs text-gray-500 mt-1">
-                                        KDV Dahil
-                                    </div>
-                                </div>
-                                <div id="customCargo" class="hidden">
-                                    <input 
-                                        type="number" 
-                                        id="customCargoPrice"
-                                        class="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                                        placeholder="Kargo ücreti girin"
-                                    />
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-5 rounded-xl border-2 border-green-200">
+                            <label class="block text-sm font-bold text-green-700 mb-2">💳 Komisyon Tutarı</label>
+                            <div class="text-lg font-bold text-green-800" id="commissionAmount">₺0.00</div>
+                            <div class="text-xs text-gray-500 mt-1">KDV Dahil</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-xl border-2 border-blue-200">
+                            <label class="block text-sm font-bold text-blue-700 mb-2">
+                                🚚 Kargo Tutarı- <span id="cargoTypeLabel">PTT-TEX</span>
+                            </label>
+                            <div id="standardCargo">
+                                <div class="text-lg font-bold text-blue-800" id="cargoPrice">₺0.00</div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    KDV Dahil
                                 </div>
                             </div>
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-200">
-                                <label class="block text-sm font-bold text-purple-700 mb-2">📢 Reklam Tutarı</label>
-                                <div class="text-lg font-bold text-purple-800" id="advertisementAmount">₺0.00</div>
-                                <div class="text-xs text-gray-50 mt-1">KDV Dahil</div>
+                            <div id="customCargo" class="hidden">
+                                <input 
+                                    type="number" 
+                                    id="customCargoPrice"
+                                    class="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                                    placeholder="Kargo ücreti girin"
+                                />
                             </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-5 rounded-xl border-2 border-purple-200">
+                            <label class="block text-sm font-bold text-purple-700 mb-2">📢 Reklam Tutarı</label>
+                            <div class="text-lg font-bold text-purple-800" id="advertisementAmount">₺0.00</div>
+                            <div class="text-xs text-gray-500 mt-1">KDV Dahil</div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Kar Oranları ve Tutarları -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-                    📊 Kar Oranları ve Tutarları
-                </h2>
-                <div class="grid grid-cols-3 gap-8">
-                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl border-2 border-emerald-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">📈</div>
-                            <h3 class="font-bold text-xl mb-4 text-emerald-800">Net Kar<br />Oranı</h3>
-                            <div class="text-4xl font-bold text-emerald-700 mb-2" id="netProfitRate">
-                                0.00%
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar / Satış Fiyatı</div>
-                        </div>
+        <!-- Kar Oranları ve Tutarları -->
+        <div class="card bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <span class="mr-3">📊</span> Kar Oranları ve Tutarları
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-2xl border-2 border-emerald-200 text-center">
+                    <div class="text-6xl mb-4">📈</div>
+                    <h3 class="font-bold text-xl mb-4 text-emerald-800">Net Kar<br />Oranı</h3>
+                    <div class="text-4xl font-bold text-emerald-700 mb-2" id="netProfitRate">
+                        0.00%
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-sky-50 to-sky-100 p-8 rounded-2xl border-2 border-sky-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">💵</div>
-                            <h3 class="font-bold text-xl mb-4 text-sky-800">Net Kar<br />Tutarı</h3>
-                            <div class="text-4xl font-bold text-sky-700 mb-2" id="netProfit">
-                                ₺0.00
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Satış - Komisyon - Kargo - Reklam - Alış Fiyatı (KDV Dahil)</div>
-                        </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar / Satış Fiyatı</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-sky-50 to-sky-100 p-8 rounded-2xl border-2 border-sky-200 text-center">
+                    <div class="text-6xl mb-4">💵</div>
+                    <h3 class="font-bold text-xl mb-4 text-sky-800">Net Kar<br />Tutarı</h3>
+                    <div class="text-4xl font-bold text-sky-700 mb-2" id="netProfit">
+                        ₺0.00
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-violet-50 to-violet-100 p-8 rounded-2xl border-2 border-violet-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">🎯</div>
-                            <h3 class="font-bold text-xl mb-4 text-violet-800">KB Hak Ediş Düşülmüş</h3>
-                            <div class="text-4xl font-bold text-violet-700 mb-2" id="finalProfit">
-                                ₺0.00
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar - Kırmızı Beyaz Hak Ediş (KDV Dahil)</div>
-                        </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Satış - Komisyon - Kargo - Reklam - Alış Fiyatı (KDV Dahil)</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-violet-50 to-violet-100 p-8 rounded-2xl border-2 border-violet-200 text-center">
+                    <div class="text-6xl mb-4">🎯</div>
+                    <h3 class="font-bold text-xl mb-4 text-violet-800">KB Hak Ediş Düşülmüş</h3>
+                    <div class="text-4xl font-bold text-violet-700 mb-2" id="finalProfit">
+                        ₺0.00
                     </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Net Kar - Kırmızı Beyaz Hak Ediş (KDV Dahil)</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Yeni Eklenen Kar Paylaşımı Bölümü -->
-            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-                    🤝 Kar Paylaşımı
-                </h2>
-                <div class="grid grid-cols-3 gap-8">
-                    <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-8 rounded-2xl border-2 border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">📊</div>
-                            <h3 class="font-bold text-xl mb-4 text-amber-800">Paylaşılacak Kar<br />(%)</h3>
-                            <div class="text-4xl font-bold text-amber-700 mb-2" id="sharedProfitRate">
-                                0.00%
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Kar / Satış Fiyatı</div>
-                        </div>
+        <!-- Kar Paylaşımı Bölümü -->
+        <div class="card bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <span class="mr-3">🤝</span> Kar Paylaşımı
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-amber-50 to-amber-100 p-8 rounded-2xl border-2 border-amber-200 text-center">
+                    <div class="text-6xl mb-4">📊</div>
+                    <h3 class="font-bold text-xl mb-4 text-amber-800">Paylaşılacak Kar<br />(%)</h3>
+                    <div class="text-4xl font-bold text-amber-700 mb-2" id="sharedProfitRate">
+                        0.00%
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-8 rounded-2xl border-2 border-cyan-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">💰</div>
-                            <h3 class="font-bold text-xl mb-4 text-cyan-800">Paylaşılacak Kar<br />(TL)</h3>
-                            <div class="text-4xl font-bold text-cyan-700 mb-2" id="sharedProfit">
-                                ₺0.00
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">KB Hak Ediş Düşülmüş ile aynı</div>
-                        </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Kar / Satış Fiyatı</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 p-8 rounded-2xl border-2 border-cyan-200 text-center">
+                    <div class="text-6xl mb-4">💰</div>
+                    <h3 class="font-bold text-xl mb-4 text-cyan-800">Paylaşılacak Kar<br />(TL)</h3>
+                    <div class="text-4xl font-bold text-cyan-700 mb-2" id="sharedProfit">
+                        ₺0.00
                     </div>
-                    
-                    <div class="bg-gradient-to-br from-rose-50 to-rose-100 p-8 rounded-2xl border-2 border-rose-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">🏭</div>
-                            <h3 class="font-bold text-xl mb-4 text-rose-800">Hunca Kar<br />Hak Ediş</h3>
-                            <div class="text-4xl font-bold text-rose-700 mb-2" id="huncaProfitShare">
-                                ₺0.00
-                            </div>
-                            <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Karın Yarısı</div>
-                        </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">KB Hak Ediş Düşülmüş ile aynı</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-rose-50 to-rose-100 p-8 rounded-2xl border-2 border-rose-200 text-center">
+                    <div class="text-6xl mb-4">🏭</div>
+                    <h3 class="font-bold text-xl mb-4 text-rose-800">Hunca Kar<br />Hak Ediş</h3>
+                    <div class="text-4xl font-bold text-rose-700 mb-2" id="huncaProfitShare">
+                        ₺0.00
                     </div>
+                    <div class="text-sm text-gray-600 bg-white rounded-lg p-2">Paylaşılacak Karın Yarısı</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Seçilen Ürün Özeti -->
-            <div id="productSummary" class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 hidden">
-                <h3 class="font-bold text-2xl mb-6 text-gray-800 flex items-center">
-                    🏷️ Seçilen Ürün Özeti
+        <!-- Seçilen Ürün Özeti -->
+        <div id="productSummary" class="card bg-white rounded-2xl shadow-xl p-8 border border-gray-100 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold text-2xl text-gray-800 flex items-center">
+                    <span class="mr-3">🏷️</span> Seçilen Ürün Özeti
                 </h3>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="space-y-4">
+                <button id="resetButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-xl transition-all duration-200">
+                    Sıfırla
+                </button>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Ürün</p>
+                        <p class="text-lg font-bold text-gray-800" id="productName"></p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
                         <div class="bg-gray-50 p-4 rounded-xl">
-                            <p class="text-sm font-semibold text-gray-600 mb-1">Ürün</p>
-                            <p class="text-lg font-bold text-gray-800" id="productName"></p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-gray-50 p-4 rounded-xl">
-                                <p class="text-sm font-semibold text-gray-600 mb-1">SAP Kodu</p>
-                                <p class="font-bold text-gray-800" id="productSap"></p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-xl">
-                                <p class="text-sm font-semibold text-gray-600 mb-1">Marka</p>
-                                <p class="font-bold text-gray-800" id="productBrand"></p>
-                            </div>
+                            <p class="text-sm font-semibold text-gray-600 mb-1">SAP Kodu</p>
+                            <p class="font-bold text-gray-800" id="productSap"></p>
                         </div>
                         <div class="bg-gray-50 p-4 rounded-xl">
-                            <p class="text-sm font-semibold text-gray-600 mb-1">Kategori</p>
-                            <p class="font-bold text-gray-800" id="productCategory"></p>
+                            <p class="text-sm font-semibold text-gray-600 mb-1">Marka</p>
+                            <p class="font-bold text-gray-800" id="productBrand"></p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200 text-center">
-                            <span class="text-gray-600 font-semibold block mb-2">Alış Fiyatı</span>
-                            <div class="text-2xl font-bold text-orange-700" id="summaryPurchasePrice">₺0.00</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 text-center">
-                            <span class="text-gray-600 font-semibold block mb-2">Adet</span>
-                            <div class="text-2xl font-bold text-blue-700" id="summaryQuantity">1</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-200 text-center">
-                            <span class="text-gray-600 font-semibold block mb-2">KDV Dahil Toplam</span>
-                            <div class="text-2xl font-bold text-green-700" id="summaryTotalWithVAT">₺0.00</div>
-                        </div>
-                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-200 text-center">
-                            <span class="text-gray-600 font-semibold block mb-2">Satış Fiyatı</span>
-                            <div class="text-2xl font-bold text-purple-700" id="summarySalesPrice">₺0.00</div>
-                        </div>
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <p class="text-sm font-semibold text-gray-600 mb-1">Kategori</p>
+                        <p class="font-bold text-gray-800" id="productCategory"></p>
                     </div>
                 </div>
-                <div class="mt-8 text-center">
-                    <button id="resetButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-xl transition-all duration-200">
-                        Sıfırla
-                    </button>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border-2 border-orange-200 text-center">
+                        <span class="text-gray-600 font-semibold block mb-2">Alış Fiyatı</span>
+                        <div class="text-2xl font-bold text-orange-700" id="summaryPurchasePrice">₺0.00</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-200 text-center">
+                        <span class="text-gray-600 font-semibold block mb-2">Adet</span>
+                        <div class="text-2xl font-bold text-blue-700" id="summaryQuantity">1</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-200 text-center">
+                        <span class="text-gray-600 font-semibold block mb-2">KDV Dahil Toplam</span>
+                        <div class="text-2xl font-bold text-green-700" id="summaryTotalWithVAT">₺0.00</div>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border-2 border-purple-200 text-center">
+                        <span class="text-gray-600 font-semibold block mb-2">Satış Fiyatı</span>
+                        <div class="text-2xl font-bold text-purple-700" id="summarySalesPrice">₺0.00</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Geri dönüş fonksiyonu
+        function goBack() {
+            window.location.href = "https://gurkankuscu.github.io/e-ticaret-urunleri-fiyatlandirma-ve-bilgi-sistemi-1.0-2025/";
+        }
+
         // Ürün verilerini TXT formatından parse etme
         const productDataText = `SAP	ÜRÜN ADI	MARKA	KATEGORİ	HUNCA+KM SATIŞ FİYATI (TL)
 900004274	BLACK MAGIC KUTU KOFRE (M) EDT+DEO R23#	BLACK MAGIC	KOFRE	₺158,00
@@ -557,6 +613,17 @@ function goBack() {
         const advertisementRateInput = document.getElementById('advertisementRate');
         const resetButton = document.getElementById('resetButton');
         
+        // İlerleme çubuğunu güncelleme
+        function updateProgressBar() {
+            let progress = 0;
+            if (brandSelect.value) progress += 33;
+            if (categorySelect.value) progress += 33;
+            if (productSelect.value) progress += 34;
+            
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('selectionProgress').textContent = `${Math.floor(progress/33)}/3`;
+        }
+        
         // Marka değiştiğinde
         brandSelect.addEventListener('change', function() {
             const selectedBrand = this.value;
@@ -581,6 +648,7 @@ function goBack() {
             }
             
             resetProductSelection();
+            updateProgressBar();
         });
         
         // Kategori değiştiğinde
@@ -607,11 +675,13 @@ function goBack() {
             }
             
             resetProductSelection();
+            updateProgressBar();
         });
         
         // Ürün seçimi değiştiğinde
         productSelect.addEventListener('change', function() {
             updateProductDetails();
+            updateProgressBar();
         });
         
         // Miktar değiştiğinde
@@ -671,6 +741,7 @@ function goBack() {
             
             updateCalculations();
             updateQuantityDisplays();
+            updateProgressBar();
         });
         
         // Yardımcı fonksiyonlar
@@ -750,7 +821,7 @@ function goBack() {
             
             // Net kar hesaplamaları
             const netProfit = salesPrice - commissionAmount - cargoPrice - advertisementAmount - totalWithVAT;
-            const netProfitRate = salesPrice ? (netProfit / salesPrice) * 100 : 0;
+            const netProfitRate = totalWithVAT ? (netProfit / totalWithVAT) * 100 : 0;
             const finalProfit = netProfit - totalRedWhiteProfitWithVAT;
             
             // Yeni hesaplamalar: Paylaşılacak Kar ve Hunca Kar Hak Ediş
@@ -799,6 +870,7 @@ function goBack() {
             });
             
             updateQuantityDisplays();
+            updateProgressBar();
         });
     </script>
 </body>
