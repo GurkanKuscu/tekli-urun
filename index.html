@@ -826,7 +826,7 @@
             
             // Yeni hesaplamalar: Paylaşılacak Kar ve Hunca Kar Hak Ediş
             const sharedProfit = finalProfit; // Paylaşılacak Kar (TL)
-            const sharedProfitRate = salesPrice ? (sharedProfit / salesPrice) * 100 : 0; // Paylaşılacak Kar (%)
+            const sharedProfitRate = totalWithVAT ? (sharedProfit / totalWithVAT) * 100 : 0; // Paylaşılacak Kar (%)
             const huncaProfitShare = sharedProfit / 2; // Hunca Kar Hak Ediş (Paylaşılacak Karın yarısı)
             
             // Değerleri güncelle
