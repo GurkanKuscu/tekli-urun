@@ -819,11 +819,11 @@
             let cargoPrice = 0;
             if (cargoTypeSelect.value === 'PTT-TEX' && salesPrice > 0) {
                 if (salesPrice >= 0 && salesPrice <= 149.99) {
-                    cargoPrice = 27.08 * 1.2; // KDV dahil
+                    cargoPrice = 50; // KDV dahil
                 } else if (salesPrice >= 150 && salesPrice <= 299.99) {
-                    cargoPrice = 51.66 * 1.2; // KDV dahil
+                    cargoPrice = 90; // KDV dahil
                 } else if (salesPrice >= 300) {
-                    cargoPrice = 66.66 * 1.2; // KDV dahil
+                    cargoPrice = 110; // KDV dahil
                 }
             } else if (cargoTypeSelect.value === 'Özel Kargo') {
                 cargoPrice = parseFloat(customCargoPriceInput.value) || 0;
