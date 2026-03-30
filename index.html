@@ -824,11 +824,11 @@
             // Kargo hesaplaması
             let cargoPrice = 0;
             if (cargoTypeSelect.value === 'PTT-TEX' && salesPrice > 0) {
-                if (salesPrice >= 0 && salesPrice <= 149.99) {
+                if (salesPrice >= 0 && salesPrice <= 199.99) {
                     cargoPrice = 50; // KDV dahil
-                } else if (salesPrice >= 150 && salesPrice <= 299.99) {
-                    cargoPrice = 90; // KDV dahil
-                } else if (salesPrice >= 300) {
+                } else if (salesPrice >= 200 && salesPrice <= 349.99) {
+                    cargoPrice = 81; // KDV dahil
+                } else if (salesPrice >= 350) {
                     cargoPrice = 110; // KDV dahil
                 }
             } else if (cargoTypeSelect.value === 'Özel Kargo') {
